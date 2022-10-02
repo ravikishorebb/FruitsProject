@@ -1,58 +1,75 @@
-const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
 
-// Connection URL
-const url = 'mongodb://127.0.0.1:27017';
+const mongoose = require('mongoose');
 
-// Database Name
-const dbName = 'fruitsDB';
+mongoose.connect("mongodb://127.0.0.1:27017/fruitsDB", { useNewUrlParser: true });
 
-// Create a new MongoClient
-const client = new MongoClient(url, { useNewUrlParser: true });
-
-
-// Use Connect method to connect to server
-client.connect(function(err){
-  assert.equal(null, err);
-  console.log("Connected successfully to server");
-
-  const db = client.db(dbName);
-
-  //insertDocuments(db, function(){
-  findDocuments(db, function() {
-    client.close();
-  });
+const fruitSchema = new mongoose.Schema ({
+  name: String,
+  rating: Number,
+  review: String
 });
 
-// INSERT DOCUMENTS
+const Fruit = mongoose.model("Fruit", fruitSchema);
 
-const insertDocuments = function(db, callback){
-  // Get the documents collection
-  const collection = db.collection('fruits');
-
-  collection.insertMany([
-    {name: "apple", score: 8, review: "Great fruit"},
-    {name: "Orange", score: 6, review: "Kinda sour"},
-    {name: "Banana", score: 9, review: "Great stuff!"}
-  ], function(err, result) {
-    assert.equal(err, null);
-    assert.equal(3,result.insertedCount);
-    assert.equal(3,Object.keys(result.insertedIds).length);
-    console.log("Inserted 3 documents into the collection");
-    callback(result);
-  });
-};
-
-
-// FIND
-const findDocuments = function(db, callback) {
-// Get the documents collection
-const collection = db.collection('fruits');
-// Find some documents
-collection.find({}).toArray(function(err, fruits) {
-  assert.equal(err, null);
-  console.log("Found the following records");
-  console.log(fruits)
-  callback(fruits);
+const fruit = new Fruit ({
+  name: "Apple",
+  rating: 7,
+  review: "Apples are beautiful"
 });
-}
+
+//fruit.save();
+
+const personSchema = new mongoose.Schema ({
+  name: String,
+  age: Number,
+});
+
+const Person = mongoose.model("Person", personSchema);
+
+const person = new Person ({
+  name: "King Kong",
+  age: 21
+});
+
+person.save();
+
+const kiwi = new Fruit ({
+  name: "Kiwi",
+  rating: 10,
+  review: "Very hairy"
+});
+
+const orange = new Fruit ({
+  name: "orange",
+  rating:9,
+  review: "Same as color"
+});
+
+const banana = new Fruit ({
+  name: "banana",
+  rating:6,
+  review: "healthy the best"
+});
+
+// Fruit.insertMany([kiwi, orange, banana], function(err){
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log("Successfully saved all the fruits")
+//   }
+// })
+
+Fruit.find(function(err, fruits){
+  if (err){
+    console.log(err);
+  } else {
+  //  console.log(fruits);
+  mongoose.collection.close();
+
+    fruits.forEach(function(fruit) {
+      console.log(fruit.name);
+    })
+  }
+
+
+});

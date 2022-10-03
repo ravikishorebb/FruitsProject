@@ -3,55 +3,52 @@ const mongoose = require('mongoose');
 
 mongoose.connect("mongodb://127.0.0.1:27017/fruitsDB", { useNewUrlParser: true });
 
-const fruitSchema = new mongoose.Schema ({
-  name: String,
-  rating: Number,
-  review: String
-});
+// const fruitSchema = new mongoose.Schema ({
+//   name: {
+//     type: String,
+//     required: [true, "Mandotaory Name"]
+//   },
+//   rating: {
+//     type: Number,
+//     min: 1,
+//     max: 10
+//     },
+//   review: String
+// });
+//
+// const Fruit = mongoose.model("Fruit", fruitSchema);
 
-const Fruit = mongoose.model("Fruit", fruitSchema);
 
-const fruit = new Fruit ({
-  name: "Apple",
-  rating: 7,
-  review: "Apples are beautiful"
-});
 
-//fruit.save();
 
-const personSchema = new mongoose.Schema ({
-  name: String,
-  age: Number,
-});
+// const Apple = new Fruit ({
+//   name: "Apple",
+//   rating: 6,
+//   review: "Blue are Bad"
+// });
+//
+// const Kiwi = new Fruit ({
+//   name: "Kiwi",
+//   rating: 10,
+//   review: "Very hairy"
+// });
+//
+// const Orange = new Fruit ({
+//   name: "Orange",
+//   rating:9,
+//   review: "Same as color"
+// });
+//
+// const Banana = new Fruit ({
+//   name: "Banana",
+//   rating:6,
+//   review: "healthy the best"
+// });
 
-const Person = mongoose.model("Person", personSchema);
+// To insert single record
+//Banana.save();
 
-const person = new Person ({
-  name: "King Kong",
-  age: 21
-});
-
-person.save();
-
-const kiwi = new Fruit ({
-  name: "Kiwi",
-  rating: 10,
-  review: "Very hairy"
-});
-
-const orange = new Fruit ({
-  name: "orange",
-  rating:9,
-  review: "Same as color"
-});
-
-const banana = new Fruit ({
-  name: "banana",
-  rating:6,
-  review: "healthy the best"
-});
-
-// Fruit.insertMany([kiwi, orange, banana], function(err){
+// Fruit.insertMany([Apple, Kiwi, Orange, Banana], function(err){
 //   if (err) {
 //     console.log(err);
 //   } else {
@@ -59,17 +56,111 @@ const banana = new Fruit ({
 //   }
 // })
 
-Fruit.find(function(err, fruits){
+// Fruit.find(function(err, fruits){
+//   console.log("Inside Find 1");
+//   if (err){
+//     console.log(err);
+//   } else {
+// //  mongoose.connection.close();
+//   console.log(fruits);
+//   }
+// });
+
+
+// Fruit.find(function(err, fruits){
+//   console.log("First Find");
+//   if (err){
+//     console.log(err);
+//   } else {
+//     fruits.forEach(function(fruit) {
+//       console.log(fruit.name);
+//       mongoose.connection.close();
+//     })
+//   }
+// });
+
+// Fruit.updateOne({ Name: "Apple"},  {name: "Ravi"},  function(err){
+//   console.log("Inside Update");
+//     if (err){
+//       console.log(err);
+//     } else {
+//       console.log("Updated Sucessfully");
+//     //  mongoose.connection.close();
+//     }
+// });
+
+
+// Fruit.deleteOne({name: "Ravi"}, function(err){
+//   console.log("Inside Delete");
+//
+//   if(err){
+//     console.log(err);
+//   } else {
+//     console.log("Delete Done");
+//   }
+// })
+
+
+// Fruit.find(function(err, fruits){
+//   console.log("Inside Find 2");
+//   if (err){
+//     console.log(err);
+//   } else {
+//
+// //  mongoose.connection.close();
+//   console.log(fruits);
+//
+//     fruits.forEach(function(fruit) {
+//       console.log(fruit.name);
+//     })
+//   }
+// });
+
+
+// Fruit.find(function(err, fruits){
+//   console.log("Final Find");
+//   if (err){
+//     console.log(err);
+//   } else {
+//     fruits.forEach(function(fruit) {
+//       console.log(fruit.name);
+//       mongoose.connection.close();
+//     })
+//   }
+// });
+
+
+const personSchema = new mongoose.Schema ({
+  name: String,
+  age: Number
+});
+
+const Person = mongoose.model("Person", personSchema);
+
+// const person = new Person ({
+//   name: "King Kong",
+//   age: 21
+// });
+//
+// person.save();
+
+// Person.find(function(err, poeple){
+//   console.log("Final Find");
+//   if (err){
+//     console.log(err);
+//   } else {
+//     poeple.forEach(function(poeple) {
+//       console.log(poeple.name);
+//       //mongoose.connection.close();
+//     })
+//   }
+// });
+
+Person.deleteMany({name: "King Kong"}), function(err){
   if (err){
     console.log(err);
-  } else {
-  //  console.log(fruits);
-  mongoose.collection.close();
-
-    fruits.forEach(function(fruit) {
-      console.log(fruit.name);
-    })
+  }else {
+    console.log("deleted all");
+     mongoose.connection.close();
   }
-
-
-});
+}
